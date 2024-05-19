@@ -361,3 +361,19 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+Grafika_Projekt/[Dd]ebug/
+Grafika_Projekt/[Dd]ebugPublic/
+Grafika_Projekt/[Rr]elease/
+Grafika_Projekt/[Rr]eleases/
+Grafika_Projekt/x64/
+Grafika_Projekt/x86/
+Grafika_Projekt/[Ww][Ii][Nn]32/
+Grafika_Projekt/[Aa][Rr][Mm]/
+Grafika_Projekt/[Aa][Rr][Mm]64/
+Grafika_Projekt/bld/
+Grafika_Projekt/[Bb]in/
+Grafika_Projekt/[Oo]bj/
+Grafika_Projekt/[Oo]ut/
+Grafika_Projekt/[Ll]og/
+Grafika_Projekt/[Ll]ogs/
