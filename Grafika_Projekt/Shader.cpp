@@ -1,5 +1,6 @@
 #include "Shader.hpp"
 
+// Tworzenie programu shadera podaj¹c œcie¿ki do plików vertex i fragment shadera
 Shader::Shader(const char *vertexPath, const char *fragmentPath) {
     int success;
     char infoLog[512];
@@ -70,9 +71,12 @@ Shader::~Shader() {
     glDeleteProgram(ID);
 }
 
+// W³¹czenie shadera
 void Shader::use() {
     glUseProgram(ID);
 }
+
+// Ustawianie zmiennych jednorodnych shaderów
 
 void Shader::setBool(const char* name, GLboolean value) const {
     glUniform1i(glGetUniformLocation(ID, name), (int) value);
@@ -122,6 +126,7 @@ void Shader::setMat4(const char* name, const glm::mat4 &mat) const {
     glUniformMatrix4fv(glGetUniformLocation(ID, name), 1, GL_FALSE, &mat[0][0]);
 }
 
+// Numer slotu zmiennej jednorodnej o danej nazwie, je¿eli chcesz ustawiaæ je w sposób z labów
 GLint Shader::getUniform(const char* name) const {
     return glGetUniformLocation(ID, name);
 }
