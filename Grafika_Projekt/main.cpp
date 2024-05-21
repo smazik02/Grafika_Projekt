@@ -51,6 +51,7 @@ glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 bool flashlight = true;
 
 Shader* myShader;
+Shader* noSpecShader;
 Model* myModel;
 
 int main() {
@@ -120,7 +121,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 
     // Wczytywanie shaderów
     myShader = new Shader("shaders/myShader.vert", "shaders/myShader.frag");
-    // ShaderProgram* myShader = new ShaderProgram("shaders/myShader.vert", NULL, "shaders/myShader.frag");
+    // myShader = new Shader("shaders/myShader.vert", "shaders/myShaderNoSpec.frag");
 
     // Wczytywanie modeli
     // myModel = new Model("resources/objects/backpack/backpack.obj");
@@ -138,6 +139,7 @@ void drawScene(GLFWwindow* window) {
     myShader->use();
     // Do modelu Phonga
     myShader->setFloat("material.shininess", 64.0f);
+    // myShader->setVec3("material.specular", 0.5f, 0.5f, 0.5f);
     // Pozycja kamery do obliczeñ oœwietlenia
     myShader->setVec3("viewPos", camera.positionVector);
     myShader->setBool("flashlight", flashlight);

@@ -687,6 +687,7 @@
     <None Include="shaders\lightShader.vert" />
     <None Include="shaders\myShader.frag" />
     <None Include="shaders\myShader.vert" />
+    <None Include="shaders\myShaderNoSpec.frag" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
