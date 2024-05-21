@@ -123,7 +123,8 @@ void initOpenGLProgram(GLFWwindow* window) {
     // ShaderProgram* myShader = new ShaderProgram("shaders/myShader.vert", NULL, "shaders/myShader.frag");
 
     // Wczytywanie modeli
-    myModel = new Model("resources/objects/backpack/backpack.obj");
+    // myModel = new Model("resources/objects/backpack/backpack.obj");
+    myModel = new Model("resources/objects/greek-column/column.obj");
 }
 
 void freeOpenGLProgram(GLFWwindow* window) {
