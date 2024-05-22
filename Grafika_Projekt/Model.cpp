@@ -15,7 +15,7 @@ void Model::loadModel(std::string const &path) {
     const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_GenNormals | aiProcess_JoinIdenticalVertices);
 
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-        std::cerr << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
+        std::cerr << "Couldn't load model:\n" << importer.GetErrorString() << std::endl;
         return;
     }
     directory = path.substr(0, path.find_last_of('/'));
@@ -147,7 +147,7 @@ GLuint Model::textureFromFile(const char *path, const std::string &directory) {
 
         stbi_image_free(data);
     } else {
-        std::cerr << "Texture failed to load at path: " << path << std::endl;
+        std::cerr << "Couldn't load texture at path: " << path << std::endl;
         stbi_image_free(data);
     }
 

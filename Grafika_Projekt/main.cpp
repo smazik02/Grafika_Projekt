@@ -50,15 +50,14 @@ glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 // Latarka, do ew. wywalenia, trzeba pomyœleæ
 bool flashlight = true;
 
-Shader* myShader;
-Shader* noSpecShader;
+Shader *myShader, *noSpecShader;
 Model *roof, *column, *ground;
 
 int main() {
     GLFWwindow* window;
 
     if (!glfwInit()) {
-        std::cerr << "Nie mo¿na zainicjowaæ GLFW\n";
+        std::cerr << "Couldn't initialize GLFW\n";
         exit(EXIT_FAILURE);
     }
 
@@ -69,14 +68,14 @@ int main() {
 
     window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "OpenGL", NULL, NULL);
     if (!window) {
-        std::cerr << "Nie mo¿na utworzyæ okna\n";
+        std::cerr << "Couldn't create a window\n";
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
     glfwMakeContextCurrent(window);
 
     if (glewInit() != GLEW_OK) {
-        std::cerr << "Nie mo¿na zainicjowaæ GLEW\n";
+        std::cerr << "Couldn't initialize GLEW\n";
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
@@ -186,18 +185,18 @@ void drawScene(GLFWwindow* window) {
 
     // Macierz modelu
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -4.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));
     myShader->setMat4("model", model);
     ground->draw(myShader);
 
-    model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 3.0f, 0.0f));
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 4.0f, 0.0f));
     // model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
     myShader->setMat4("model", model);
     // Rysowanie modelu
     roof->draw(myShader);
 
-    model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 2.0f));
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 2.0f));
     model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
     myShader->setMat4("model", model);
     column->draw(myShader);

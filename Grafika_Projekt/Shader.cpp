@@ -16,7 +16,7 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath) {
     glGetProgramiv(ID, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(ID, 512, NULL, infoLog);
-        std::cerr << "B³¹d linkowania shadera\n" << infoLog << std::endl;
+        std::cerr << "Error during shader linking:\n" << infoLog << std::endl;
     }
 
     glDeleteShader(vertex);
@@ -36,7 +36,7 @@ GLuint Shader::loadShader(GLenum shaderType, const char* filePath) {
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        std::cerr << "B³¹d kompilacji shadera\n" << infoLog << std::endl;
+        std::cerr << "Error during shader compilation:\n" << infoLog << std::endl;
     }
 
     delete []shaderSource;
@@ -63,7 +63,7 @@ char* Shader::loadShaderFile(const char* filePath) {
         return result;
     }
 
-    std::cerr << "B³¹d wczytywania pliku shadera\n";
+    std::cerr << "Couldn't read shader file\n";
     return NULL;
 }
 
