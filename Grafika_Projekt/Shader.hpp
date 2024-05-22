@@ -19,7 +19,7 @@ public:
     ~Shader();
 
     // Use/activate the shader
-    void use();
+    void use() const;
 
     // Utilities
     void setBool(const char *name, GLboolean value) const;

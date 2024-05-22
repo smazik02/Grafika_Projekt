@@ -189,18 +189,18 @@ void drawScene(GLFWwindow* window) {
     model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -4.0f, 0.0f));
     model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
     myShader->setMat4("model", model);
-    ground->Draw(myShader);
+    ground->draw(myShader);
 
     model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 3.0f, 0.0f));
     // model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
     myShader->setMat4("model", model);
     // Rysowanie modelu
-    roof->Draw(myShader);
+    roof->draw(myShader);
 
     model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 2.0f));
     model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
     myShader->setMat4("model", model);
-    column->Draw(myShader);
+    column->draw(myShader);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {

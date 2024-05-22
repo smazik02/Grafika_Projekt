@@ -4,9 +4,9 @@ Model::Model(char const *path) {
     loadModel(path);
 }
 
-void Model::Draw(Shader *shader) {
-    for (auto mesh: meshes) {
-        mesh.Draw(shader);
+void Model::draw(Shader *shader) {
+    for (auto& mesh : meshes) {
+        mesh.draw(shader);
     }
 }
 
@@ -41,9 +41,9 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
     // process vertex positions, normals and tex coords
     vertices.reserve(mesh->mNumVertices);
     for (GLuint i = 0; i < mesh->mNumVertices; i++) {
-        Vertex vertex;
+        Vertex vertex{};
 
-        glm::vec3 vector;
+        glm::vec3 vector{};
         vector.x = mesh->mVertices[i].x;
         vector.y = mesh->mVertices[i].y;
         vector.z = mesh->mVertices[i].z;
@@ -57,7 +57,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
         }
 
         if (mesh->mTextureCoords[0]) {
-            glm::vec2 vec;
+            glm::vec2 vec{};
             vec.x = mesh->mTextureCoords[0][i].x;
             vec.y = mesh->mTextureCoords[0][i].y;
             vertex.TexCoords = vec;
@@ -106,7 +106,7 @@ std::vector <Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType
 
         if (!skip) {
             Texture texture;
-            texture.id = TextureFromFile(str.C_Str(), directory);
+            texture.id = textureFromFile(str.C_Str(), directory);
             texture.type = typeName;
             texture.path = str.C_Str();
             textures.push_back(texture);
@@ -117,7 +117,7 @@ std::vector <Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType
     return textures;
 }
 
-GLuint Model::TextureFromFile(const char *path, const std::string &directory) {
+GLuint Model::textureFromFile(const char *path, const std::string &directory) {
     std::string filename = std::string(path);
 
     filename = directory + '/' + filename;
@@ -128,7 +128,7 @@ GLuint Model::TextureFromFile(const char *path, const std::string &directory) {
     GLint width, height, nrComponents;
     unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
     if (data) {
-        GLenum format;
+        GLenum format{};
         if (nrComponents == 1)
             format = GL_RED;
         else if (nrComponents == 3)

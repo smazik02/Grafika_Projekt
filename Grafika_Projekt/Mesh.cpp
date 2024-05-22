@@ -8,7 +8,7 @@ Mesh::Mesh(std::vector <Vertex> &vertices, std::vector <GLuint> &indices, std::v
     setupMesh();
 }
 
-void Mesh::Draw(Shader *shader) {
+void Mesh::draw(Shader *shader) {
     GLuint diffuseNr = 1;
     GLuint specularNr = 1;
     for (GLuint i = 0; i < textures.size(); i++) {

@@ -72,7 +72,7 @@ Shader::~Shader() {
 }
 
 // W³¹czenie shadera
-void Shader::use() {
+void Shader::use() const {
     glUseProgram(ID);
 }
 

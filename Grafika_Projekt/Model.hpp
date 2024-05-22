@@ -22,7 +22,7 @@ public:
 
     Model(char const *path);
 
-    void Draw(Shader *shader);
+    void draw(Shader *shader);
 
 private:
     std::vector <Texture> texturesLoaded;
@@ -35,5 +35,5 @@ private:
 
     std::vector <Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 
-    static GLuint TextureFromFile(const char *path, const std::string &directory);
+    static GLuint textureFromFile(const char *path, const std::string &directory);
 };
