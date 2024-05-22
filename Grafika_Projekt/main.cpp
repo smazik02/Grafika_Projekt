@@ -52,7 +52,7 @@ bool flashlight = true;
 
 Shader* myShader;
 Shader* noSpecShader;
-Model *roof, *column;
+Model *roof, *column, *ground;
 
 int main() {
     GLFWwindow* window;
@@ -128,12 +128,14 @@ void initOpenGLProgram(GLFWwindow* window) {
     // myModel = new Model("resources/objects/greek-column/column.obj");
     roof = new Model("resources/objects/roof/roof.obj");
     column = new Model("resources/objects/greek-column/column.obj");
+    ground = new Model("resources/objects/ground/ground.obj");
 }
 
 void freeOpenGLProgram(GLFWwindow* window) {
     delete myShader;
     delete roof;
     delete column;
+    delete ground;
 }
 
 void drawScene(GLFWwindow* window) {
@@ -184,11 +186,21 @@ void drawScene(GLFWwindow* window) {
 
     // Macierz modelu
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, 4.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -4.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(3.0f, 3.0f, 3.0f));
+    myShader->setMat4("model", model);
+    ground->Draw(myShader);
+
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 3.0f, 0.0f));
+    // model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
     myShader->setMat4("model", model);
     // Rysowanie modelu
-    myModel->Draw(myShader);
+    roof->Draw(myShader);
+
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 2.0f));
+    model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+    myShader->setMat4("model", model);
+    column->Draw(myShader);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
