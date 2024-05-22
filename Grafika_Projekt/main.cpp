@@ -52,7 +52,7 @@ bool flashlight = true;
 
 Shader* myShader;
 Shader* noSpecShader;
-Model* myModel;
+Model *roof, *column;
 
 int main() {
     GLFWwindow* window;
@@ -125,12 +125,15 @@ void initOpenGLProgram(GLFWwindow* window) {
 
     // Wczytywanie modeli
     // myModel = new Model("resources/objects/backpack/backpack.obj");
-    myModel = new Model("resources/objects/greek-column/column.obj");
+    // myModel = new Model("resources/objects/greek-column/column.obj");
+    roof = new Model("resources/objects/roof/roof.obj");
+    column = new Model("resources/objects/greek-column/column.obj");
 }
 
 void freeOpenGLProgram(GLFWwindow* window) {
     delete myShader;
-    delete myModel;
+    delete roof;
+    delete column;
 }
 
 void drawScene(GLFWwindow* window) {
@@ -151,16 +154,16 @@ void drawScene(GLFWwindow* window) {
     myShader->setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
 
     // Parametry œwiate³ punktowych
-    //        myShader->setInt("pointLightsCount", 1);
-    //        myShader->setVec3("pointLights[0].position", glm::vec3(0.7f, 0.2f, 2.0f));
-    //        myShader->setFloat("pointLights[0].constant", 1.0f);
-    //        myShader->setFloat("pointLights[0].linear", 0.045f);
-    //        myShader->setFloat("pointLights[0].quadratic", 0.0075f);
-    //        myShader->setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
-    //        myShader->setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
-    //        myShader->setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+    myShader->setInt("pointLightsCount", 1);
+    myShader->setVec3("pointLights[0].position", glm::vec3(0.7f, 0.2f, 2.0f));
+    myShader->setFloat("pointLights[0].constant", 1.0f);
+    myShader->setFloat("pointLights[0].linear", 0.045f);
+    myShader->setFloat("pointLights[0].quadratic", 0.0075f);
+    myShader->setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
+    myShader->setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
+    myShader->setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
 
-    myShader->setInt("pointLightsCount", 0);
+    myShader->setInt("pointLightsCount", 1);
 
     // Parametry œwiat³a sto¿kowego - na razie tylko latarki
     myShader->setVec3("spotLight.position", camera.positionVector);
@@ -181,7 +184,7 @@ void drawScene(GLFWwindow* window) {
 
     // Macierz modelu
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+    model = glm::translate(model, glm::vec3(0.0f, 4.0f, 0.0f));
     model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
     myShader->setMat4("model", model);
     // Rysowanie modelu
