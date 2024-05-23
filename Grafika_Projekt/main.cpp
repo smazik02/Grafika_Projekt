@@ -20,7 +20,7 @@ void initOpenGLProgram(GLFWwindow* window);
 
 void freeOpenGLProgram(GLFWwindow* window);
 
-void drawScene(GLFWwindow* window);
+void drawScene(GLFWwindow* window, glm::mat4 const& projection);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -49,7 +49,7 @@ float lastFrame = 0.0f;
 glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 // Latarka, do ew. wywalenia, trzeba pomyœleæ
-bool flashlight = true;
+bool flashlight = false;
 
 Shader *myShader, *noSpecShader;
 Model *roof, *column, *ground;
@@ -84,6 +84,10 @@ int main() {
 
     initOpenGLProgram(window);
 
+    glm::mat4 projection = glm::perspective(glm::radians(camera.pov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+    myShader->use();
+    myShader->setMat4("Projection", projection);
+
     // Render loop
     while (!glfwWindowShouldClose(window)) {
         GLfloat currentFrame = static_cast<GLfloat>(glfwGetTime());
@@ -92,7 +96,7 @@ int main() {
 
         processInput(window);
 
-        drawScene(window);
+        drawScene(window, projection);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -141,7 +145,7 @@ void freeOpenGLProgram(GLFWwindow* window) {
     delete ground;
 }
 
-void drawScene(GLFWwindow* window) {
+void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     myShader->use();
@@ -183,26 +187,27 @@ void drawScene(GLFWwindow* window) {
     myShader->setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
 
     // Macierz rzutowania perspektywicznego oraz widoku
-    glm::mat4 projection = glm::perspective(glm::radians(camera.pov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-    myShader->setMat4("projection", projection);
-    myShader->setMat4("view", camera.getViewMatrix());
+    glm::mat4 view = camera.getViewMatrix();
 
     // Macierz modelu
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1.0f, 0.0f));
     model = glm::scale(model, glm::vec3(8.0f, 8.0f, 8.0f));
-    myShader->setMat4("model", model);
+    myShader->setMat4("Model", model);
+    myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
     ground->draw(myShader);
 
     model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 4.0f, 0.0f));
     // model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-    myShader->setMat4("model", model);
+    myShader->setMat4("Model", model);
+    myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
     // Rysowanie modelu
     roof->draw(myShader);
 
     model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 2.0f));
     model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-    myShader->setMat4("model", model);
+    myShader->setMat4("Model", model);
+    myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
     column->draw(myShader);
 
     skyBox->draw(camera.getViewMatrix(), projection);

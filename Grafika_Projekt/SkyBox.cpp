@@ -78,8 +78,8 @@ SkyBox::~SkyBox() {
 void SkyBox::draw(glm::mat4 const &view, glm::mat4 const &projection) {
     glDepthFunc(GL_LEQUAL);
     shader->use();
-    shader->setMat4("view", glm::mat4(glm::mat3(view)));
-    shader->setMat4("projection", projection);
+    shader->setMat4("View", glm::mat4(glm::mat3(view)));
+    shader->setMat4("Projection", projection);
 
     glBindVertexArray(VAO);
     glActiveTexture(GL_TEXTURE0);
