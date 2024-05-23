@@ -1,4 +1,4 @@
-#include "SkyBox.h"
+#include "SkyBox.hpp"
 
 SkyBox::SkyBox() {
     verticies = new float[] {       

@@ -15,7 +15,7 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath) {
     glLinkProgram(ID);
     glGetProgramiv(ID, GL_LINK_STATUS, &success);
     if (!success) {
-        glGetProgramInfoLog(ID, 512, NULL, infoLog);
+        glGetProgramInfoLog(ID, 512, nullptr, infoLog);
         std::cerr << "Error during shader linking:\n" << infoLog << std::endl;
     }
 
@@ -31,11 +31,11 @@ GLuint Shader::loadShader(GLenum shaderType, const char* filePath) {
     const char* shaderSource = loadShaderFile(filePath);
 
     shader = glCreateShader(shaderType);
-    glShaderSource(shader, 1, &shaderSource, NULL);
+    glShaderSource(shader, 1, &shaderSource, nullptr);
     glCompileShader(shader);
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if (!success) {
-        glGetShaderInfoLog(shader, 512, NULL, infoLog);
+        glGetShaderInfoLog(shader, 512, nullptr, infoLog);
         std::cerr << "Error during shader compilation:\n" << infoLog << std::endl;
     }
 
@@ -44,7 +44,7 @@ GLuint Shader::loadShader(GLenum shaderType, const char* filePath) {
 }
 
 char* Shader::loadShaderFile(const char* filePath) {
-    int filesize;
+    size_t filesize;
     FILE* plik;
     char* result;
 
@@ -56,7 +56,7 @@ char* Shader::loadShaderFile(const char* filePath) {
         fseek(plik, 0, SEEK_SET);
         result = new char[filesize + 1];
         #pragma warning(suppress : 6386)
-        int readsize = fread(result, 1, filesize, plik);
+        fread(result, 1, filesize, plik);
         result[filesize] = 0;
         fclose(plik);
 

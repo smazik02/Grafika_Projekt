@@ -117,10 +117,8 @@ std::vector <Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType
     return textures;
 }
 
-GLuint Model::textureFromFile(const char *path, const std::string &directory) {
-    std::string filename = std::string(path);
-
-    filename = directory + '/' + filename;
+GLuint Model::textureFromFile(const std::string &path, const std::string &directory) {
+    std::string filename = directory + '/' + path;
 
     GLuint textureID;
     glGenTextures(1, &textureID);

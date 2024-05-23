@@ -13,7 +13,7 @@
 #include "Shader.hpp"
 #include "Camera.hpp"
 #include "Model.hpp"
-#include "SkyBox.h"
+#include "SkyBox.hpp"
 #include "stb_image.h"
 
 void initOpenGLProgram(GLFWwindow* window);
@@ -32,8 +32,8 @@ void mouseCallback(GLFWwindow* window, double mouseXIn, double mouseYIn);
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 
-const unsigned int SCR_WIDTH = 1280;
-const unsigned int SCR_HEIGHT = 720;
+const GLsizei SCR_WIDTH = 1280;
+const GLsizei SCR_HEIGHT = 720;
 
 // Tworzy kamerê w danej pozycji
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
@@ -68,7 +68,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_SAMPLES, 4);
 
-    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "OpenGL", NULL, NULL);
+    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "OpenGL", nullptr, nullptr);
     if (!window) {
         std::cerr << "Couldn't create a window\n";
         glfwTerminate();
@@ -84,13 +84,13 @@ int main() {
 
     initOpenGLProgram(window);
 
-    glm::mat4 projection = glm::perspective(glm::radians(camera.pov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(camera.pov), static_cast<float>(SCR_WIDTH) / static_cast<float>(SCR_HEIGHT), 0.1f, 100.0f);
     myShader->use();
     myShader->setMat4("Projection", projection);
 
     // Render loop
     while (!glfwWindowShouldClose(window)) {
-        GLfloat currentFrame = static_cast<GLfloat>(glfwGetTime());
+        float currentFrame = static_cast<float>(glfwGetTime());
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
@@ -227,6 +227,10 @@ void processInput(GLFWwindow* window) {
         camera.processKeyboard(LEFT, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.processKeyboard(RIGHT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+        camera.processKeyboard(UP, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+        camera.processKeyboard(DOWN, deltaTime);
 }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {

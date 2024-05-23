@@ -35,5 +35,5 @@ private:
 
     std::vector <Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName);
 
-    static GLuint textureFromFile(const char *path, const std::string &directory);
+    static GLuint textureFromFile(const std::string &path, const std::string &directory);
 };
