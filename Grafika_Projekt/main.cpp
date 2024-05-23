@@ -13,6 +13,7 @@
 #include "Shader.hpp"
 #include "Camera.hpp"
 #include "Model.hpp"
+#include "SkyBox.h"
 #include "stb_image.h"
 
 void initOpenGLProgram(GLFWwindow* window);
@@ -52,6 +53,7 @@ bool flashlight = true;
 
 Shader *myShader, *noSpecShader;
 Model *roof, *column, *ground;
+SkyBox* skyBox;
 
 int main() {
     GLFWwindow* window;
@@ -128,6 +130,8 @@ void initOpenGLProgram(GLFWwindow* window) {
     roof = new Model("resources/objects/roof/roof.obj");
     column = new Model("resources/objects/greek-column/column.obj");
     ground = new Model("resources/objects/ground/ground.obj");
+
+    skyBox = new SkyBox();
 }
 
 void freeOpenGLProgram(GLFWwindow* window) {
@@ -150,9 +154,9 @@ void drawScene(GLFWwindow* window) {
 
     // Parametry œwiat³a kierunkowego
     myShader->setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
-    myShader->setVec3("dirLight.ambient", 0.05f, 0.05f, 0.05f);
-    myShader->setVec3("dirLight.diffuse", 0.4f, 0.4f, 0.4f);
-    myShader->setVec3("dirLight.specular", 0.5f, 0.5f, 0.5f);
+    myShader->setVec3("dirLight.ambient", 0.15f, 0.15f, 0.15f);
+    myShader->setVec3("dirLight.diffuse", 0.7f, 0.7f, 0.7f);
+    myShader->setVec3("dirLight.specular", 0.6f, 0.6f, 0.6f);
 
     // Parametry œwiate³ punktowych
     myShader->setInt("pointLightsCount", 1);
@@ -200,6 +204,8 @@ void drawScene(GLFWwindow* window) {
     model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
     myShader->setMat4("model", model);
     column->draw(myShader);
+
+    skyBox->draw(camera.getViewMatrix(), projection);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {

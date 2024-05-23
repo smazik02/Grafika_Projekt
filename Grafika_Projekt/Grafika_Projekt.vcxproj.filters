@@ -39,6 +39,9 @@
     <ClCompile Include="include\glm\glm.cppm">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SkyBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GLFW\glfw3.h">
@@ -1187,6 +1190,9 @@
     <ClInclude Include="include\glm\vector_relational.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SkyBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glew32s.lib" />
@@ -1642,5 +1648,7 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="shaders\myShaderNoSpec.frag" />
+    <None Include="shaders\skyBoxShader.frag" />
+    <None Include="shaders\skyBoxShader.vert" />
   </ItemGroup>
 </Project>

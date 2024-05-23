@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="include\glm\detail\glm.cpp" />
     <ClCompile Include="include\glm\glm.cppm" />
     <ClCompile Include="main.cpp" />
@@ -144,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="include\assimp\aabb.h" />
     <ClInclude Include="include\assimp\ai_assert.h" />
     <ClInclude Include="include\assimp\anim.h" />
@@ -688,6 +690,8 @@
     <None Include="shaders\myShader.frag" />
     <None Include="shaders\myShader.vert" />
     <None Include="shaders\myShaderNoSpec.frag" />
+    <None Include="shaders\skyBoxShader.frag" />
+    <None Include="shaders\skyBoxShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
