@@ -1,12 +1,13 @@
 #pragma once
 
 #include <GL/glew.h>
+
+#include <OGL/Shader.hpp>
+#include <STB/stb_image.h>
+
 #include <iostream>
 #include <string>
 #include <vector>
-
-#include "Shader.hpp"
-#include "stb_image.h"
 
 class SkyBox {
 public:

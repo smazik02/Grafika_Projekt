@@ -1,20 +1,21 @@
 #define GLEW_STATIC
 
+#include <OGL/Shader.hpp>
+#include <OGL/Camera.hpp>
+#include <OGL/Model.hpp>
+#include <OGL/SkyBox.hpp>
+#include <STB/stb_image.h>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
-
-#include "Shader.hpp"
-#include "Camera.hpp"
-#include "Model.hpp"
-#include "SkyBox.hpp"
-#include "stb_image.h"
 
 void initOpenGLProgram(GLFWwindow* window);
 

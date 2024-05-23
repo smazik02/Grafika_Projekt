@@ -1,4 +1,4 @@
-#include "Shader.hpp"
+#include <OGL/Shader.hpp>
 
 // Tworzenie programu shadera podaj¹c œcie¿ki do plików vertex i fragment shadera
 Shader::Shader(const char *vertexPath, const char *fragmentPath) {

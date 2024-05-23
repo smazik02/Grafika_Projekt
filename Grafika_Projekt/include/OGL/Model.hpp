@@ -1,5 +1,9 @@
 #pragma once
 
+#include <OGL/Shader.hpp>
+#include <OGL/Mesh.hpp>
+#include <STB/stb_image.h>
+
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -10,10 +14,6 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
-#include "Shader.hpp"
-#include "stb_image.h"
-#include "Mesh.hpp"
 
 class Model {
 public:

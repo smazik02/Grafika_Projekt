@@ -1,4 +1,4 @@
-#include "Mesh.hpp"
+#include <OGL/Mesh.hpp>
 
 Mesh::Mesh(std::vector <Vertex> &vertices, std::vector <GLuint> &indices, std::vector <Texture> &textures) {
     this->vertices = vertices;

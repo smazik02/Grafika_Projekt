@@ -133,19 +133,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="SkyBox.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\SkyBox.cpp" />
     <ClCompile Include="include\glm\detail\glm.cpp" />
     <ClCompile Include="include\glm\glm.cppm" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="stb_image.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.hpp" />
-    <ClInclude Include="SkyBox.hpp" />
+    <ClInclude Include="include\OGL\Camera.hpp" />
+    <ClInclude Include="include\OGL\SkyBox.hpp" />
     <ClInclude Include="include\assimp\aabb.h" />
     <ClInclude Include="include\assimp\ai_assert.h" />
     <ClInclude Include="include\assimp\anim.h" />
@@ -523,10 +523,10 @@
     <ClInclude Include="include\GL\glew.h" />
     <ClInclude Include="include\GL\glxew.h" />
     <ClInclude Include="include\GL\wglew.h" />
-    <ClInclude Include="Mesh.hpp" />
-    <ClInclude Include="Model.hpp" />
-    <ClInclude Include="Shader.hpp" />
-    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="include\OGL\Mesh.hpp" />
+    <ClInclude Include="include\OGL\Model.hpp" />
+    <ClInclude Include="include\OGL\Shader.hpp" />
+    <ClInclude Include="include\STB\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\assimp-vc143-mt.lib" />

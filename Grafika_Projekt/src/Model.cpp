@@ -1,4 +1,4 @@
-#include "Model.hpp"
+#include <OGL/Model.hpp>
 
 Model::Model(char const *path) {
     loadModel(path);

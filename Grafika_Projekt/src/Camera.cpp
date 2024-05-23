@@ -1,4 +1,4 @@
-#include "Camera.hpp"
+#include <OGL/Camera.hpp>
 
 Camera::Camera(glm::vec3 position, glm::vec3 up, float yaw, float pitch) {
     positionVector = position;

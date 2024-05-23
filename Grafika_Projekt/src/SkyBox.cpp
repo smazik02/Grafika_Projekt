@@ -1,4 +1,4 @@
-#include "SkyBox.hpp"
+#include <OGL/SkyBox.hpp>
 
 SkyBox::SkyBox() {
     verticies = new float[] {       
