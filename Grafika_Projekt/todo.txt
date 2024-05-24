@@ -1,0 +1,6 @@
+Wiêkszoœæ rzeczy dzia³a
+
+TODO
+Poszukaæ jakichœ modeli oœwietlenia (pochodnia, cokolwiek)
+Ustawiæ odpowiednio wszystko na scenie
+Pobawiæ siê parametrami œwiat³a ¿eby by³o bardziej realistyczne

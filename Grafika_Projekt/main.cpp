@@ -53,7 +53,7 @@ glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 bool flashlight = false;
 
 Shader *myShader, *noSpecShader;
-Model *roof, *column, *ground;
+Model *roof, *column, *ground, *penelope;
 SkyBox* skyBox;
 
 int main() {
@@ -135,6 +135,7 @@ void initOpenGLProgram(GLFWwindow* window) {
     roof = new Model("resources/objects/roof/roof.obj");
     column = new Model("resources/objects/greek-column/column.obj");
     ground = new Model("resources/objects/ground/ground.obj");
+    penelope = new Model("resources/objects/penelope/penelope.obj");
 
     skyBox = new SkyBox();
 }
@@ -144,6 +145,7 @@ void freeOpenGLProgram(GLFWwindow* window) {
     delete roof;
     delete column;
     delete ground;
+    delete penelope;
 }
 
 void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
@@ -210,6 +212,11 @@ void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
     myShader->setMat4("Model", model);
     myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
     column->draw(myShader);
+
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 1.0f, 10.0f));
+    myShader->setMat4("Model", model);
+    myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
+    penelope->draw(myShader);
 
     skyBox->draw(camera.getViewMatrix(), projection);
 }

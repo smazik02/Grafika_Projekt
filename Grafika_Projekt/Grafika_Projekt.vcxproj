@@ -116,7 +116,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -684,7 +684,6 @@
     <None Include="lib\assimp-vc143-mt.dll" />
     <None Include="lib\assimp-vc143-mt.exp" />
     <None Include="lib\assimp-vc143-mt.pdb" />
-    <None Include="Makefile" />
     <None Include="shaders\lightShader.frag" />
     <None Include="shaders\lightShader.vert" />
     <None Include="shaders\myShader.frag" />
@@ -692,6 +691,9 @@
     <None Include="shaders\myShaderNoSpec.frag" />
     <None Include="shaders\skyBoxShader.frag" />
     <None Include="shaders\skyBoxShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="todo.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
