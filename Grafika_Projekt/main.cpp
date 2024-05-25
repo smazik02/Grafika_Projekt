@@ -23,6 +23,8 @@ void freeOpenGLProgram(GLFWwindow* window);
 
 void drawScene(GLFWwindow* window, glm::mat4 const& projection);
 
+void drawColumns(GLFWwindow* window, glm::mat4 const& projection, int nrRows, int nrCols, float spacing, glm::vec3 const& offset);
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 void processInput(GLFWwindow* window);
@@ -207,11 +209,8 @@ void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
     // Rysowanie modelu
     roof->draw(myShader);
 
-    model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 2.0f));
-    model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-    myShader->setMat4("Model", model);
-    myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
-    column->draw(myShader);
+    // rysowanie kolumn
+    drawColumns(window, projection, 4, 8, 2.0f, glm::vec3(10.0f, 1.9f, 0.0f));
 
     model = glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 1.0f, 10.0f));
     myShader->setMat4("Model", model);
@@ -220,6 +219,23 @@ void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
 
     skyBox->draw(camera.getViewMatrix(), projection);
 }
+
+void drawColumns(GLFWwindow* window, glm::mat4 const& projection, int nrRows, int nrCols, float spacing, glm::vec3 const& offset)
+{
+    for (int row = 0; row < nrRows; row++) {
+        for (int col = 0; col < nrCols; col++) {
+            if (row == 0 || row == nrRows - 1 || col == 0 || col == nrCols - 1) {
+                glm::mat4 model = glm::mat4(1.0f);
+                model = glm::translate(model, glm::vec3(col * spacing, 0.0f, row * spacing) + offset);
+                model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
+                myShader->setMat4("Model", model);
+                myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
+                column->draw(myShader);
+            }
+        }
+    }
+}
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);

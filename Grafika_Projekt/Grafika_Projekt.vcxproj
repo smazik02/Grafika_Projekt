@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>C:\Programowanie\studia\S4\Grafika_Projekt\Grafika_Projekt\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>C:\Programowanie\studia\S4\Grafika_Projekt\Grafika_Projekt\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\xxsup\source\repos\Grafika_Projekt\Grafika_Projekt\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\xxsup\source\repos\Grafika_Projekt\Grafika_Projekt\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
