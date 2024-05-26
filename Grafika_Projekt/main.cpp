@@ -53,7 +53,7 @@ glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 bool flashlight = false;
 
 Shader *myShader, *noSpecShader;
-Model *roof, *column, *ground, *penelope;
+Model *roof, *column, *ground, *penelope, *torch;
 SkyBox* skyBox;
 
 int main() {
@@ -136,6 +136,7 @@ void initOpenGLProgram(GLFWwindow* window) {
     column = new Model("resources/objects/greek-column/column.obj");
     ground = new Model("resources/objects/ground/ground.obj");
     penelope = new Model("resources/objects/penelope/penelope.obj");
+    torch = new Model("resources/objects/torch2/torch2.obj");
 
     skyBox = new SkyBox();
 }
@@ -146,6 +147,7 @@ void freeOpenGLProgram(GLFWwindow* window) {
     delete column;
     delete ground;
     delete penelope;
+    delete torch;
 }
 
 void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
