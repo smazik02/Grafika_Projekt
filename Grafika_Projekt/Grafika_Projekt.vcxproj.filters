@@ -42,6 +42,9 @@
     <ClCompile Include="src\SkyBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\LightBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GLFW\glfw3.h">
@@ -1191,6 +1194,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\OGL\SkyBox.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OGL\LightBox.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

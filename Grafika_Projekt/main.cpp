@@ -4,6 +4,7 @@
 #include <OGL/Camera.hpp>
 #include <OGL/Model.hpp>
 #include <OGL/SkyBox.hpp>
+#include <OGL/LightBox.hpp>
 #include <STB/stb_image.h>
 
 #include <GL/glew.h>
@@ -16,10 +17,13 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
+#include <string>
 
 void initOpenGLProgram(GLFWwindow* window);
 
 void freeOpenGLProgram(GLFWwindow* window);
+
+void setupLighting();
 
 void drawScene(GLFWwindow* window, glm::mat4 const& projection);
 
@@ -46,8 +50,9 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-// Pojedyncze ürÛd≥o úwiat≥a
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+// èrÛd≥a úwiat≥a
+std::vector <LightBox*> lightSources;
+int nLightSources = 1;
 
 // Latarka, do ew. wywalenia, trzeba pomyúleÊ
 bool flashlight = false;
@@ -88,6 +93,8 @@ int main() {
     glm::mat4 projection = glm::perspective(glm::radians(camera.pov), static_cast<float>(SCR_WIDTH) / static_cast<float>(SCR_HEIGHT), 0.1f, 100.0f);
     myShader->use();
     myShader->setMat4("Projection", projection);
+
+    setupLighting();
 
     // Render loop
     while (!glfwWindowShouldClose(window)) {
@@ -139,27 +146,30 @@ void initOpenGLProgram(GLFWwindow* window) {
     torch = new Model("resources/objects/torch2/torch2.obj");
 
     skyBox = new SkyBox();
+
+    lightSources = {
+//                             position          const. linear  quadr.             ambient                         diffuse                      specular
+        new LightBox(glm::vec3(5.0f, 1.0f, 5.0f), 1.0f, 0.045f, 0.0075f, glm::vec3(0.05f, 0.05f, 0.05f), glm::vec3(0.8f, 0.8f, 0.8f), glm::vec3(1.0f, 1.0f, 1.0f))
+    };
+
+    //lightBox = new LightBox();
 }
 
 void freeOpenGLProgram(GLFWwindow* window) {
     delete myShader;
+
     delete roof;
     delete column;
     delete ground;
     delete penelope;
     delete torch;
+
+    delete skyBox;
 }
 
-void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+void setupLighting() {
     myShader->use();
-    // Do modelu Phonga
     myShader->setFloat("material.shininess", 64.0f);
-    // myShader->setVec3("material.specular", 0.5f, 0.5f, 0.5f);
-    // Pozycja kamery do obliczeÒ oúwietlenia
-    myShader->setVec3("viewPos", camera.positionVector);
-    myShader->setBool("flashlight", flashlight);
 
     // Parametry úwiat≥a kierunkowego
     myShader->setVec3("dirLight.direction", -0.2f, -1.0f, -0.3f);
@@ -168,20 +178,19 @@ void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
     myShader->setVec3("dirLight.specular", 0.6f, 0.6f, 0.6f);
 
     // Parametry úwiate≥ punktowych
-    myShader->setInt("pointLightsCount", 1);
-    myShader->setVec3("pointLights[0].position", glm::vec3(0.7f, 0.2f, 2.0f));
-    myShader->setFloat("pointLights[0].constant", 1.0f);
-    myShader->setFloat("pointLights[0].linear", 0.045f);
-    myShader->setFloat("pointLights[0].quadratic", 0.0075f);
-    myShader->setVec3("pointLights[0].ambient", 0.05f, 0.05f, 0.05f);
-    myShader->setVec3("pointLights[0].diffuse", 0.8f, 0.8f, 0.8f);
-    myShader->setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+    myShader->setInt("pointLightsCount", nLightSources);
+    for (int i = 0; i < nLightSources; i++) {
+        std::string pointLights = "pointLights[" + std::to_string(i);
+        myShader->setVec3((pointLights + "].position").c_str(), lightSources[i]->position);
+        myShader->setFloat((pointLights + "].constant").c_str(), lightSources[i]->constant);
+        myShader->setFloat((pointLights + "].linear").c_str(), lightSources[i]->linear);
+        myShader->setFloat((pointLights + "].quadratic").c_str(), lightSources[i]->quadratic);
+        myShader->setVec3((pointLights + "].ambient").c_str(), lightSources[i]->ambient);
+        myShader->setVec3((pointLights + "].diffuse").c_str(), lightSources[i]->diffuse);
+        myShader->setVec3((pointLights + "].specular").c_str(), lightSources[i]->specular);
+    }
 
-    myShader->setInt("pointLightsCount", 1);
-
-    // Parametry úwiat≥a stoøkowego - na razie tylko latarki
-    myShader->setVec3("spotLight.position", camera.positionVector);
-    myShader->setVec3("spotLight.direction", camera.frontVector);
+    // Parametry úwiat≥a stoøkowego - latarki
     myShader->setFloat("spotLight.cutOff", glm::cos(glm::radians(15.0f)));
     myShader->setFloat("spotLight.outerCutOff", glm::cos(glm::radians(17.5f)));
     myShader->setFloat("spotLight.constant", 1.0f);
@@ -190,6 +199,20 @@ void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
     myShader->setVec3("spotLight.ambient", 0.0f, 0.0f, 0.0f);
     myShader->setVec3("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
     myShader->setVec3("spotLight.specular", 1.0f, 1.0f, 1.0f);
+}
+
+void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    myShader->use();
+
+    // Pozycja kamery do obliczeÒ oúwietlenia
+    myShader->setVec3("viewPos", camera.positionVector);
+    myShader->setBool("flashlight", flashlight);
+
+    // Parametry úwiat≥a stoøkowego - latarki
+    myShader->setVec3("spotLight.position", camera.positionVector);
+    myShader->setVec3("spotLight.direction", camera.frontVector);
 
     // Macierz rzutowania perspektywicznego oraz widoku
     glm::mat4 view = camera.getViewMatrix();
@@ -219,6 +242,16 @@ void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
     myShader->setMat4("Model", model);
     myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
     penelope->draw(myShader);
+
+    for (int i = 0; i < nLightSources; i++) {
+        model = glm::translate(glm::mat4(1.0f), lightSources[i]->position);
+        myShader->setMat4("Model", model);
+        myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
+        torch->draw(myShader);
+
+        model = glm::scale(model, glm::vec3(0.05f));
+        lightSources[i]->draw(projection * camera.getViewMatrix() * model);
+    }
 
     skyBox->draw(camera.getViewMatrix(), projection);
 }

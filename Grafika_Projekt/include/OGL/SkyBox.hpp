@@ -13,7 +13,7 @@ class SkyBox {
 public:
 	SkyBox();
 	~SkyBox();
-	void draw(glm::mat4 const &view, glm::mat4 const&projection);
+	void draw(glm::mat4 const &view, glm::mat4 const &projection);
 private:
 	GLuint VAO, VBO, tex;
 	float *verticies;
