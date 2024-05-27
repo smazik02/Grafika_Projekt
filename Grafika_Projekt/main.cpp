@@ -27,6 +27,12 @@ void setupLighting();
 
 void drawScene(GLFWwindow* window, glm::mat4 const& projection);
 
+void drawColumnsEdge(GLFWwindow* window, glm::mat4 const& projection, int nrRows, int nrCols, float spacing, glm::vec3 const& offset, glm::vec3 const& scale);
+
+void drawColumnsLine(GLFWwindow* window, glm::mat4 const& projection, int nrCols, float spacing, glm::vec3 const& offset, glm::vec3 const& scale);
+
+void drawFloor(GLFWwindow* window, glm::mat4 const& projection, int nrRows, int nrCols, float spacing_rows, float spacing_cols, glm::vec3 const& offset, glm::vec3 const& scale);
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 void processInput(GLFWwindow* window);
@@ -58,7 +64,7 @@ int nLightSources = 1;
 bool flashlight = false;
 
 Shader *myShader, *noSpecShader;
-Model *roof, *column, *ground, *penelope, *torch;
+Model *roof, *column, *ground, *penelope, *stone_square, *torch;
 SkyBox* skyBox;
 
 int main() {
@@ -143,7 +149,8 @@ void initOpenGLProgram(GLFWwindow* window) {
     column = new Model("resources/objects/greek-column/column.obj");
     ground = new Model("resources/objects/ground/ground.obj");
     penelope = new Model("resources/objects/penelope/penelope.obj");
-    torch = new Model("resources/objects/torch2/torch2.obj");
+    stone_square = new Model("resources/objects/stone/stone.obj");
+    torch = new Model("resources/objects/torch/torch.obj");
 
     skyBox = new SkyBox();
 
@@ -162,6 +169,7 @@ void freeOpenGLProgram(GLFWwindow* window) {
     delete column;
     delete ground;
     delete penelope;
+    delete stone_square;
     delete torch;
 
     delete skyBox;
@@ -225,23 +233,35 @@ void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
     myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
     ground->draw(myShader);
 
-    model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 4.0f, 0.0f));
-    // model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(18.8f, 6.8f, 8.2f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::scale(model, glm::vec3(2.1f, 1.5f, 3.9f));
     myShader->setMat4("Model", model);
     myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
     // Rysowanie modelu
     roof->draw(myShader);
 
-    model = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 1.0f, 2.0f));
-    model = glm::scale(model, glm::vec3(0.4f, 0.4f, 0.4f));
-    myShader->setMat4("Model", model);
-    myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
-    column->draw(myShader);
+    // rysowanie kolumn
+    // rysowanie kolumn po obwodzie
+    drawColumnsEdge(window, projection, 8, 17, 2.3f, glm::vec3(0.0f, 2.9f, 0.0f), glm::vec3(0.4f, 0.4f, 0.4f));
 
-    model = glm::translate(glm::mat4(1.0f), glm::vec3(10.0f, 1.0f, 10.0f));
+    // rysowanie kolumn w linii przed wejœciem
+    drawColumnsLine(window, projection, 6, 2.25f, glm::vec3(4.0f, 3.5f, 2.45f), glm::vec3(0.4f, 0.36f, 0.4f));
+
+    // rysowanie kolumn w linii z ty³u
+
+    // rysowanie rzeŸby
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(17.0f, 1.0f, 7.2f));
+    model = glm::scale(model, glm::vec3(1.3f, 1.3f, 1.3f));
     myShader->setMat4("Model", model);
     myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
     penelope->draw(myShader);
+
+    // rysowanie pod³ogi
+    drawFloor(window, projection, 9, 13, 1.93f, 2.94f, glm::vec3(5.2f, -1.0f, -9.5f), glm::vec3(0.05f, 0.06f, 0.05f));
+
+    //rysowanie drugiej pod³ogi
+    drawFloor(window, projection, 7, 11, 1.93f, 2.94f, glm::vec3(8.5f, 0.0f, -7.5f), glm::vec3(0.05f, 0.05f, 0.05f));
 
     for (int i = 0; i < nLightSources; i++) {
         model = glm::translate(glm::mat4(1.0f), lightSources[i]->position);
@@ -256,24 +276,77 @@ void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
     skyBox->draw(camera.getViewMatrix(), projection);
 }
 
+void drawColumnsEdge(GLFWwindow* window, glm::mat4 const& projection, int nrRows, int nrCols, float spacing, glm::vec3 const& offset, glm::vec3 const& scale) {
+    for (int row = 0; row < nrRows; row++) {
+        for (int col = 0; col < nrCols; col++) {
+            if (row == 0 || row == nrRows - 1 || col == 0 || col == nrCols - 1) {
+                glm::mat4 model = glm::mat4(1.0f);
+                model = glm::translate(model, glm::vec3(col * spacing, 0.0f, row * spacing) + offset);
+                model = glm::scale(model, scale);
+                myShader->setMat4("Model", model);
+                myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
+                column->draw(myShader);
+            }
+        }
+    }
+}
+
+void drawColumnsLine(GLFWwindow* window, glm::mat4 const& projection, int nrCols, float spacing, glm::vec3 const& offset, glm::vec3 const& scale) {
+    for (int col = 0; col < nrCols; col++) {
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, col * spacing) + offset);
+        model = glm::scale(model, scale);
+        myShader->setMat4("Model", model);
+        myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
+        column->draw(myShader);
+    }
+}
+
+void drawFloor(GLFWwindow* window, glm::mat4 const& projection, int nrRows, int nrCols, float spacing_rows, float spacing_cols, glm::vec3 const& offset, glm::vec3 const& scale) {
+    for (int row = 0; row < nrRows; row++) {
+        for (int col = 0; col < nrCols; col++) {
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, glm::vec3(col * spacing_cols, 0.0f, row * spacing_rows) + offset);
+            model = glm::scale(model, scale);
+            myShader->setMat4("Model", model);
+            myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
+            stone_square->draw(myShader);
+        }
+    }
+}
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
 }
 
 // Dwie osobne metody obs³ugi klawiatury
 void processInput(GLFWwindow* window) {
+    bool shiftPressed = glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS;
+    bool spacePressed = glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS;
+    bool ctrlPressed = glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS;
+
+    int combinedAction = NONE;
+
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.processKeyboard(FORWARD, deltaTime);
+        combinedAction |= FORWARD;
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.processKeyboard(BACKWARD, deltaTime);
+        combinedAction |= BACKWARD;
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.processKeyboard(LEFT, deltaTime);
+        combinedAction |= LEFT;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.processKeyboard(RIGHT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-        camera.processKeyboard(UP, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-        camera.processKeyboard(DOWN, deltaTime);
+        combinedAction |= RIGHT;
+    if (spacePressed)
+        combinedAction |= JUMP;
+    if (shiftPressed)
+        combinedAction |= DOWN;
+    if (ctrlPressed)
+        combinedAction |= CROUCH;
+
+    camera.processKeyboard(combinedAction, deltaTime, shiftPressed, spacePressed, ctrlPressed);
+
+    float speed_factor = 0.02f;
+    if (shiftPressed) speed_factor *= 2.0f;
+    if (ctrlPressed) speed_factor *= 0.5f;
 }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
