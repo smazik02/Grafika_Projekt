@@ -4,13 +4,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-enum Camera_Movement {
-    FORWARD,
-    BACKWARD,
-    LEFT,
-    RIGHT,
-    UP,
-    DOWN
+enum Action {
+    NONE = 0,
+    FORWARD = 1 << 0,
+    BACKWARD = 1 << 1,
+    LEFT = 1 << 2,
+    RIGHT = 1 << 3,
+    JUMP = 1 << 4,
+    DOWN = 1 << 5,
+    CROUCH = 1 << 6
 };
 
 const float YAW = -90.0f;
@@ -43,7 +45,7 @@ public:
 
     void setFpsCam(bool fps);
 
-    void processKeyboard(Camera_Movement direction, float deltaTime);
+    void processKeyboard(int direction, float deltaTime, bool shiftPressed, bool spacePressed, bool ctrlPressed);
 
     void processMouse(float xoffset, float yoffset);
 
