@@ -47,7 +47,7 @@ const GLsizei SCR_WIDTH = 1280;
 const GLsizei SCR_HEIGHT = 720;
 
 // Tworzy kamerÍ w danej pozycji
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(-5.0f, 0.0f, 8.0f));
 // Koordynaty startowe kursora do obs≥ugi myszki
 float lastMouseX = static_cast<float>(SCR_WIDTH) / 2.0f;
 float lastMouseY = static_cast<float>(SCR_HEIGHT) / 2.0f;
@@ -58,7 +58,7 @@ float lastFrame = 0.0f;
 
 // èrÛd≥a úwiat≥a
 std::vector <LightBox*> lightSources;
-int nLightSources = 1;
+int nLightSources = 2;
 
 // Latarka, do ew. wywalenia, trzeba pomyúleÊ
 bool flashlight = false;
@@ -156,7 +156,8 @@ void initOpenGLProgram(GLFWwindow* window) {
 
     lightSources = {
 //                             position          const. linear  quadr.             ambient                         diffuse                      specular
-        new LightBox(glm::vec3(5.0f, 1.0f, 5.0f), 1.0f, 0.045f, 0.0075f, glm::vec3(0.05f, 0.05f, 0.05f), glm::vec3(0.8f, 0.8f, 0.8f), glm::vec3(1.0f, 1.0f, 1.0f))
+        new LightBox(glm::vec3(21.35f, 3.0f, 11.45f), 1.0f, 0.045f, 0.0075f, glm::vec3(0.05f, 0.05f, 0.05f), glm::vec3(0.8f, 0.8f, 0.8f), glm::vec3(1.0f, 1.0f, 1.0f)),
+        new LightBox(glm::vec3(21.35f, 3.0f, 4.7f), 1.0f, 0.045f, 0.0075f, glm::vec3(0.05f, 0.05f, 0.05f), glm::vec3(0.8f, 0.8f, 0.8f), glm::vec3(1.0f, 1.0f, 1.0f))
     };
 
     //lightBox = new LightBox();
@@ -233,9 +234,9 @@ void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
     myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
     ground->draw(myShader);
 
-    model = glm::translate(glm::mat4(1.0f), glm::vec3(18.8f, 6.8f, 8.2f));
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(12.7f, 6.8f, 8.2f));
     model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(2.1f, 1.5f, 3.9f));
+    model = glm::scale(model, glm::vec3(2.1f, 1.5f, 2.75f));
     myShader->setMat4("Model", model);
     myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
     // Rysowanie modelu
@@ -243,28 +244,30 @@ void drawScene(GLFWwindow* window, glm::mat4 const& projection) {
 
     // rysowanie kolumn
     // rysowanie kolumn po obwodzie
-    drawColumnsEdge(window, projection, 8, 17, 2.3f, glm::vec3(0.0f, 2.9f, 0.0f), glm::vec3(0.4f, 0.4f, 0.4f));
+    drawColumnsEdge(window, projection, 8, 12, 2.3f, glm::vec3(0.0f, 2.9f, 0.0f), glm::vec3(0.4f, 0.4f, 0.4f));
 
     // rysowanie kolumn w linii przed wejúciem
-    drawColumnsLine(window, projection, 6, 2.25f, glm::vec3(4.0f, 3.5f, 2.45f), glm::vec3(0.4f, 0.36f, 0.4f));
+    drawColumnsLine(window, projection, 6, 2.25f, glm::vec3(4.0f, 3.35f, 2.45f), glm::vec3(0.4f, 0.36f, 0.4f));
 
     // rysowanie kolumn w linii z ty≥u
+    drawColumnsLine(window, projection, 6, 2.25f, glm::vec3(22.0f, 3.35f, 2.45f), glm::vec3(0.4f, 0.36f, 0.4f));
 
     // rysowanie rzeüby
-    model = glm::translate(glm::mat4(1.0f), glm::vec3(17.0f, 1.0f, 7.2f));
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(17.0f, 1.0f, 8.1f));
     model = glm::scale(model, glm::vec3(1.3f, 1.3f, 1.3f));
     myShader->setMat4("Model", model);
     myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
     penelope->draw(myShader);
 
     // rysowanie pod≥ogi
-    drawFloor(window, projection, 9, 13, 1.93f, 2.94f, glm::vec3(5.2f, -1.0f, -9.5f), glm::vec3(0.05f, 0.06f, 0.05f));
+    drawFloor(window, projection, 9, 9, 1.93f, 2.97f, glm::vec3(5.2f, -1.0f, -9.5f), glm::vec3(0.05f, 0.06f, 0.05f));
 
     //rysowanie drugiej pod≥ogi
-    drawFloor(window, projection, 7, 11, 1.93f, 2.94f, glm::vec3(8.5f, 0.0f, -7.5f), glm::vec3(0.05f, 0.05f, 0.05f));
+    drawFloor(window, projection, 7, 7, 1.93f, 2.94f, glm::vec3(8.5f, 0.0f, -7.5f), glm::vec3(0.05f, 0.05f, 0.05f));
 
     for (int i = 0; i < nLightSources; i++) {
         model = glm::translate(glm::mat4(1.0f), lightSources[i]->position);
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         myShader->setMat4("Model", model);
         myShader->setMat4("MVP", projection * camera.getViewMatrix() * model);
         torch->draw(myShader);
@@ -343,10 +346,6 @@ void processInput(GLFWwindow* window) {
         combinedAction |= CROUCH;
 
     camera.processKeyboard(combinedAction, deltaTime, shiftPressed, spacePressed, ctrlPressed);
-
-    float speed_factor = 0.02f;
-    if (shiftPressed) speed_factor *= 2.0f;
-    if (ctrlPressed) speed_factor *= 0.5f;
 }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {

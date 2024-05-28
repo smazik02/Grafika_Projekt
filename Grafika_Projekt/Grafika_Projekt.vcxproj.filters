@@ -1139,9 +1139,6 @@
     <ClInclude Include="include\glm\geometric.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\glm\glm.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\glm\integer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
